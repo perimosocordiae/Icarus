@@ -1,0 +1,22 @@
+/* Based off the Code School 3 color scheme for Vim */
+pre {
+  background: #000;
+  word-wrap: break-word;
+  margin: 0px;
+  padding: 10px;
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+pre, code {
+  font-family: 'Monaco', courier, monospace;
+}
+
+pre .comment  { color: #9a9a9a; }
+pre .constant { color: #3c98d9; }
+pre .boolean  { color: #3c98d9; }
+pre .operator { color: #dda790; }
+pre .string   { color: #8bb664; }
+pre .keyword  { color: #dda790; }
+pre .rocket   { color: #ff0000; }

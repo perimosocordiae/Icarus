@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Icarus</title>
+
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!--bootsrap-->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<!--rainbow.js-->
+<script src="rainbow/rainbow.min.js"></script>
+<script src="rainbow/icarus.js"></script>
+<link href="rainbow/codeschool.css" rel="stylesheet" type="text/css">
+
+<style>
+p, li { font-size: 13pt; }
+p.lead { font-size: 20pt; margin-top: 1em; }
+</style>
+</head>
+
+<body>
+<br>
+<div class="container">
+  <div class="alert alert-info" role="alert">
+    <p><strong>Heads up!</strong> Icarus is still very much a work in progress.
+    Syntax and semantics may change without warning.</p>
+  </div>
+
+  <h2>Declaration and assignment</h2>
+
+  <p class="lead">The basics</p>
+  <div class="row">
+    <div class="col-md-6">
+      <p>Variables can be declared with the colon operator. All declarations,
+      variables and functions alike, have a unified syntax of the identifer
+      followed by a colon followed by the type. Arrows are used for functions
+      and brackets are used for arrays.</p>
+
+      <p>To assign a variable once it has been declared, use the assignment
+      operator <code>=</code>. An assignment without a declaration is a
+      compile-time error. However, if you would like to combine these two into a
+      single line, this is perfectly okay</p>
+
+      <p>Lastly, for many variables, specifying the type is redundant as it can
+      be inferred from the value being assigned. In such instances, it is okay
+      to simply omit the type specification, writing <code>:=</code>
+      instead.</p> </div>
+    <div class="col-md-6">
+      <pre><code data-language="icarus">n : int          // n is an integer
+f : int -&gt; bool	 // specifies that f that takes an int
+                 // as an argument, and returns a bool
+a : int[3]       // a is an array of three integers
+
+n = 17           // assign the value 17 to the n
+
+// declare and define a string s to hold the value "hello"
+s : string = "hello"
+
+b := true        // Type inferred to be bool</code></pre>
+    </div>
+  </div>
+  <p class="lead">Defining functions</p>
+  <div class="row">
+    <div class="col-md-6">
+      <p>To define a function, you must give names to each of its arguments and
+      assign to it the block of code you want to be executed. This sounds more
+      complicated than it actually is. It should actually be reasonably
+      familiar, with a few syntactic changes.</p>
+    </div>
+    <div class="col-md-6">
+      <pre><code data-language="icarus">// A simple function definition
+square : (n : int) -&gt; int = {
+  return n * n
+}</pre></code>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <p>If the function is so simple that it can be expressed as returning a
+      single value, then no braces or return statement are necessary. You can
+      just set the function equal to the result it will return.</p>
+    </div>
+    <div class="col-md-6">
+      <pre><code data-language="icarus">// A single-expression function
+cube : (n : int) -&gt; int = n * n * n</pre></code>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-6">
+      <p>Moreover, for these single-expression funcitons, the return type of
+      functions can be inferred and therefore omitted in much the same way that
+      a variable declaration and assignment can be inferred and omitted. We use
+      the same <code>:=</code> operator in this case.</p>
+    </div>
+    <div class="col-md-6">
+      <pre><code data-language="icarus">// A function with inferred return type
+triple := (n : int) -&gt; 3 * n</pre></code>
+    </div>
+  </div>
+
+  <h2>Conditionals</h2>
+  <p class="lead">The basics</p>
+  <div class="row">
+    <div class="col-md-6">
+      <p>Conditionals work mostly the same way as in most other curly-brace
+      languages. We have introduced two small changes:
+      <ol>
+        <li>Enclosing conditions in parentheses <strong>is not</strong> necessary.</li>
+        <li>Enclosing blocks in curly braces <strong>is</strong> necessary.</li>
+      </ol>
+      <p>The logic behind these choices is quite simple. It is easy to forget to
+      have add curly braces when expanding a conditional from one line to two,
+      so we require it. Once braces are required, there is no ambiguity about
+      what is part of the condition and what is part of the conditional block,
+      so we do not need parentheses surrounding the condition.
+      </p>
+    </div>
+
+    <div class="col-md-6">
+      <pre><code data-language="icarus">if message == "hello" {
+  respond("howdy")
+}
+else if message == "goodbye" {
+  respond("see you later")
+}
+else {
+  respond("What we have here is a failure to communicate!")
+}</code></pre>
+    </div>
+  </div>
+  <p class="lead">Case-statements</p>
+  <div class="row">
+    <div class="col-md-6">
+      <h4>What are they?</h4>
+      <p>A case statement somewhat resembles a switch statement in C/C++, but
+      it's functionality is quite different. In fact, it functions more like a
+      if/else-if chain or a ternary operator. A case statement contains a
+      sequence of key-value pairs. The keys are evaluated in order until one of
+      them evaluates to <code>true</code> at which point the corresponding value
+      is evaluated and returned. There is no "fallthrough" like in C++.
+      Moreover, because case-statements evaluate to a specific value, each
+      <strong>must</strong> return a value. Thus, every case-statement has an
+      <code>else</code>-case as its final option.</p>
+
+      <h4>Why do we have them?</h4>
+      <p>Long if/else-if chains are often verbose and provide a more general
+      framework than is really necessary. In the common situation where one
+      wants to choose a value based on some input, the case-statement provides a
+      terse, yet easily readable format.</p>
+
+      <p>If you want to call several functions or modify several variables
+      depending on some input data, a case-statement an if/else-if chain may be
+      a more appropriate choice.</p>
+    </div>
+    <div class="col-md-6">
+      <pre><code data-language="icarus">// Determine the state of matter given the temperature
+water_state : (temperature : int) -&gt; string = {
+  return case {
+    temp &lt;= 32  =&gt;  "ice"
+    temp &lt; 212  =&gt;  "water"
+    else        =&gt;  "vapor"
+  }
+}</code></pre>
+    </div>
+  </div>
+</div>
+</body>
+</html>
