@@ -65,16 +65,36 @@ b := true        // Type inferred to be bool</code></pre>
   <p class="lead">Defining functions</p>
   <div class="row">
     <div class="col-md-6">
-      <p>To define a function, you must give names to each of its arguments and
-      assign to it the block of code you want to be executed. This sounds more
-      complicated than it actually is. It should actually be reasonably
-      familiar, with a few syntactic changes.</p>
+      <p>In the above examples, notice that we assigned values from
+      <em>literals</em>. For example, 17 is an integer-literal, "hello" is a
+      string-literal, and <code>true</code> is a boolean-literal. There is no
+      special distinction for functions, so once we tell you the syntax for a
+      <em>function-literal</em> you will be able to define functions in the same
+      way. To define a function, you must give names to each of its arguments and
+      provide a block of code you want to be executed.</p>
     </div>
     <div class="col-md-6">
-      <pre><code data-language="icarus">// A simple function definition
-square : (n : int) -&gt; int = {
+      <pre><code data-language="icarus">// A simple function which computes squares
+square : int -&gt; int
+square = (n : int) -&gt; int {
   return n * n
-}</pre></code>
+}</code></pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <p>Of course, it seems silly to ever declare the type of a function, as
+      the type is written directly in the function-literal! This is mostly true.
+      For function literals, type-inference is essentially trivial, and so we
+      can simplify the squaring function to be expressed as shown to the
+      right.</p>
+    </div>
+    <div class="col-md-6">
+      <pre><code data-language="icarus">// A simple function which computes squares
+square := (n : int) -&gt; int {
+  return n * n
+}</code></pre>
     </div>
   </div>
 
@@ -82,25 +102,12 @@ square : (n : int) -&gt; int = {
     <div class="col-md-6">
       <p>If the function is so simple that it can be expressed as returning a
       single value, then no braces or return statement are necessary. You can
-      just set the function equal to the result it will return.</p>
+      just put the result in place of the return type. Icarus will infer the
+      return type of the function for you.</p>
     </div>
     <div class="col-md-6">
       <pre><code data-language="icarus">// A single-expression function
-cube : (n : int) -&gt; int = n * n * n</pre></code>
-    </div>
-  </div>
-
-
-  <div class="row">
-    <div class="col-md-6">
-      <p>Moreover, for these single-expression funcitons, the return type of
-      functions can be inferred and therefore omitted in much the same way that
-      a variable declaration and assignment can be inferred and omitted. We use
-      the same <code>:=</code> operator in this case.</p>
-    </div>
-    <div class="col-md-6">
-      <pre><code data-language="icarus">// A function with inferred return type
-triple := (n : int) -&gt; 3 * n</pre></code>
+square := (n : int) -&gt; n * n</code></pre>
     </div>
   </div>
 
@@ -155,8 +162,8 @@ else {
       terse, yet easily readable format.</p>
 
       <p>If you want to call several functions or modify several variables
-      depending on some input data, a case-statement an if/else-if chain may be
-      a more appropriate choice.</p>
+      depending on some input data, an if/else-if chain may be a more
+      appropriate choice.</p>
     </div>
     <div class="col-md-6">
       <pre><code data-language="icarus">// Determine the state of matter given the temperature
