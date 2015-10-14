@@ -176,6 +176,44 @@ water_state : (temperature : int) -&gt; string = {
 }</code></pre>
     </div>
   </div>
+
+  <p class="lead">Loops</p>
+  <div class="row">
+    <div class="col-md-6">
+      <p>The simplest loop can be expressed with the <code>loop</code> keyword,
+      followed by an iterating variable, and a range to loop over.</p>
+
+      <p>Loops can have multiple ranges, delimited by a comma. Ranges in one
+      loop can depend on previously defined iterators.</p>
+
+      <p>One can also loop over arrays.</p>
+    </div>
+
+    <div class="col-md-6">
+      <pre><code data-language="icarus">// Sum of the first ten squares
+n : int
+loop i in 1 .. 10 {
+  n += i * i
+}
+
+// Bubble-sort
+loop i in 0 .. array.size() - 2,
+     j in i + 1 .. array.size() - 1 {
+  if array[i] &gt; array[j] {
+    temp := array[i]
+    array[i] = array[j]
+    array[j] = temp
+  }
+}
+
+array : real[5]
+array = [1.41421, 1.61803, 1.73205, 2.71828, 3.14159]
+loop num in array {
+  // do something with the number
+}
+</code></pre>
+    </div>
+  </div>
 </div>
 </body>
 </html>
