@@ -186,7 +186,14 @@ water_state : (temperature : int) -&gt; string = {
       <p>Loops can have multiple ranges, delimited by a comma. Ranges in one
       loop can depend on previously defined iterators.</p>
 
-      <p>One can also loop over arrays.</p>
+      <p>One can also loop over arrays. As a general rule, loops should be used
+      for simple "do X on all of Y"-type constructs. For more complicated
+      conditions, Icarus uses a while loop.</p>
+
+      <p>While loops are work the same way as in any other language. As was seen
+      with <code>loop</code> af <code>if</code> statements, there is no need to
+      put parentheses around the condition, and the curly braces are
+      mandatory.</p>
     </div>
 
     <div class="col-md-6">
@@ -210,6 +217,19 @@ array : real[5]
 array = [1.41421, 1.61803, 1.73205, 2.71828, 3.14159]
 loop num in array {
   // do something with the number
+}
+
+// count prime divisors of n
+divisor := 1
+prime_divisor_count := 0
+while n &gt; 1 {
+  if n % divisor == 0 {
+    n /= divisor
+    prime_divisor_count += 1
+
+  } else {
+    divisor += 1
+  }
 }
 </code></pre>
     </div>
