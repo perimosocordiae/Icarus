@@ -35,7 +35,7 @@ Rainbow.extend('icarus', [
   },
   {
     'name'    : 'operator',
-    'pattern' : /([+/\-*%|!:=]|&(gt|lt|amp);)=?|\.\.|in/g
+    'pattern' : /([+/\-*%|!:=]|&(gt|lt|amp);)=?|@|\.\.|in/g
   },
   {
     'name'    : 'rocket',

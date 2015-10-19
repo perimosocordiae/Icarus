@@ -177,9 +177,45 @@ water_state : (temperature : int) -&gt; string = {
     </div>
   </div>
 
-  <p class="lead">Loops</p>
+  <h2>Pointers</h2>
+  <p class="lead">Syntax</p>
+  <div style="float: right; margin-left: 1em;">
+    <pre><code data-language="icarus">n : int = 0   // int
+n_ptr : &amp;int  // pointer to an int
+n_ptr = &amp;n
+n = 17
+
+@n_ptr == 17  // true because n_ptr points to n</code></pre>
+  </div>
+
+  <p>Pointers in Icarus work similarly to how they do in C++, but the syntax
+  is different. Rather than using <code>&amp;</code> and <code>*</code>,
+  Icarus uses <code>&amp;</code> and <code>@</code>. Moreover, these are not
+  simple drop-in replacements. To understand why, you must first notice that
+  C++ has a built-in inconsistency in it's pointer syntax. Icarus is
+  attempting to correct this.</p>
+
+  <p>Notice that in C++, an ampersand is used to produce a pointer and an
+  asterisk is used to dereference a pointer. However, when it comes time to
+  declare a pointer in C++, you use the asterisk rather than an ampersand.
+  An ampersand should seem more natural here, as it is the thing that makes
+  pointers.</p>
+
+  <p>To be fair, C++ has a complicated set of rules for declaring types an
+  according to its philosophy of "declaration models usage," these rules
+  really do make sense. That being said, we believe this philosophy is
+  somewhat backwards and so we take a different approach.</p>
+
+  <p>Instead, we use an ampersand to make pointers both on variables and on
+  types. For dereferencing, we use the '@' symbol beacuse it reads cleanly
+  and correctly. If <code>x</code> is a pointer (an address in memory), then
+  <code>@x</code> denotes the value that is "at x."
+
+
+  <h2>Repetition</h2>
   <div class="row">
     <div class="col-md-6">
+      <p class="lead">Loop</p>
       <p>The simplest loop can be expressed with the <code>loop</code> keyword,
       followed by an iterating variable, and a range to loop over.</p>
 
@@ -190,6 +226,8 @@ water_state : (temperature : int) -&gt; string = {
       for simple "do X on all of Y"-type constructs. For more complicated
       conditions, Icarus uses a while loop.</p>
 
+      <div style="min-height: 10em;"></div>
+      <p class="lead">While</p>
       <p>While loops are work the same way as in any other language. As was seen
       with <code>loop</code> af <code>if</code> statements, there is no need to
       put parentheses around the condition, and the curly braces are
