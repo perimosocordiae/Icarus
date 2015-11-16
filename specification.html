@@ -52,7 +52,7 @@ p.lead { font-size: 20pt; margin-top: 1em; }
       <pre><code data-language="icarus">n : int          // n is an integer
 f : int -&gt; bool	 // specifies that f that takes an int
                  // as an argument, and returns a bool
-a : int[3]       // a is an array of three integers
+a : [3; int]       // a is an array of three integers
 
 n = 17           // assign the value 17 to the n
 
@@ -95,19 +95,6 @@ square = (n : int) -&gt; int {
 square := (n : int) -&gt; int {
   return n * n
 }</code></pre>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-6">
-      <p>If the function is so simple that it can be expressed as returning a
-      single value, then no braces or return statement are necessary. You can
-      just put the result in place of the return type. Icarus will infer the
-      return type of the function for you.</p>
-    </div>
-    <div class="col-md-6">
-      <pre><code data-language="icarus">// A single-expression function
-square := (n : int) -&gt; n * n</code></pre>
     </div>
   </div>
 
@@ -251,7 +238,7 @@ loop i in 0 .. array.size() - 2,
   }
 }
 
-array : real[5]
+array : [5; real]
 array = [1.41421, 1.61803, 1.73205, 2.71828, 3.14159]
 loop num in array {
   // do something with the number
