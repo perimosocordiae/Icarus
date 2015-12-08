@@ -34,22 +34,33 @@ p.lead { font-size: 20pt; margin-top: 1em; }
   <p class="lead">The basics</p>
   <div class="row">
     <div class="col-md-6">
-      <p>Variables can be declared with the colon operator. All declarations,
-      variables and functions alike, have a unified syntax of the identifer
-      followed by a colon followed by the type. Arrows are used for functions
-      and brackets are used for arrays.</p>
+      <p>Variables can be declared with a colon. All declarations, variables and functions alike, have a unified syntax of the identifer followed by a colon followed by the type. Examples are shown to the right.</p>
 
-      <p>To assign a variable once it has been declared, use the assignment
-      operator <code>=</code>. An assignment without a declaration is a
-      compile-time error. However, if you would like to combine these two into a
-      single line, this is perfectly okay</p>
+      <p>The basic types are <code>bool</code>, <code>char</code>, <code>int</code>, <code>real</code>, <code>type</code>, and <code>uint</code>. These types should mostly be familiar from other languages with the exception of the mysterious <em>type</em> type. More on that later.</p>
+
+      <p> We won't go into the technical details of the precise definitions of these types, but for the most part, they are the same as the corresponding types in C++.</p>
+
+      <p>To assign a variable once it has been declared, use the assignment operator <code>=</code>. An assignment without a declaration is a compile-time error. However, if you would like to combine these two into a single line, this is perfectly okay.</p>
+
+      <p></p>
 
       <p>Lastly, for many variables, specifying the type is redundant as it can
       be inferred from the value being assigned. In such instances, it is okay
       to simply omit the type specification, writing <code>:=</code>
       instead.</p> </div>
     <div class="col-md-6">
-      <pre><code data-language="icarus">n : int          // n is an integer
+      <pre><code data-language="icarus">b : bool         // b is a boolean-valued variable
+c : char         // c is a character
+n : int          // n is an integer
+m : uint         // m is an unsigned integer
+r : real         // r is a real number (floating point)
+
+b = true
+c = 'x'
+n = -3
+m = 17
+r = 34.102
+
 f : int -&gt; bool	 // specifies that f that takes an int
                  // as an argument, and returns a bool
 a : [3; int]       // a is an array of three integers
