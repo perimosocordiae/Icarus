@@ -15,7 +15,7 @@ ir::Value Compiler::EmitValue(ast::BuiltinFn const *node) {
 
 ir::Value Compiler::EmitValue(ast::Import const *node) {
   auto module_id = context().imported_module(node);
-  ASSERT(module_id != ir::ModuleId::Invalid());
+  // ASSERT(module_id != ir::ModuleId::Invalid());
   return ir::Value(module_id);
 }
 

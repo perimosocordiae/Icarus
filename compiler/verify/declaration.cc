@@ -317,30 +317,32 @@ type::QualType Compiler::VerifyType(ast::Declaration const *node) {
   }
 
   context().set_qual_type(node, node_qual_type);
+  LOG("Declaration", "Setting qual type on '%s' -> %s", node->id(),
+      node_qual_type);
+
+  if (node_qual_type.type() == type::Module) {
+    // TODO: check if it's constant?
+    // TODO: check shadowing against other modules?
+    // TODO: what if no init val is provded? what if not constant?
+
+    auto maybe_mod = EvaluateAs<ir::ModuleId>(node->init_val());
+    if (not maybe_mod) {
+      diag().Consume(maybe_mod.error());
+      node_qual_type.MarkError();
+    } else {
+      // TODO: In generic contexts it doesn't make sense to place this on the
+      // AST.
+      node->scope()->embedded_modules_.insert(maybe_mod->get<LibraryModule>());
+    }
+    return node_qual_type;
+  }
 
   if (node->id().empty()) {
-    if (node_qual_type.type() == type::Module) {
-      // TODO: check if it's constant?
-      // TODO: check shadowing against other modules?
-      // TODO: what if no init val is provded? what if not constant?
-
-      auto maybe_mod = EvaluateAs<ir::ModuleId>(node->init_val());
-      if (not maybe_mod) {
-        diag().Consume(maybe_mod.error());
-        node_qual_type.MarkError();
-      } else {
-        // TODO: In generic contexts it doesn't make sense to place this on the
-        // AST.
-        node->scope()->embedded_modules_.insert(
-            maybe_mod->get<LibraryModule>());
-      }
-    } else {
-      diag().Consume(DeclaringHoleAsNonModule{
-          .type  = node_qual_type.type(),
-          .range = node->range(),
-      });
-      node_qual_type.MarkError();
-    }
+    diag().Consume(DeclaringHoleAsNonModule{
+        .type  = node_qual_type.type(),
+        .range = node->range(),
+    });
+    node_qual_type.MarkError();
     return node_qual_type;
   }
 

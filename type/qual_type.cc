@@ -29,7 +29,7 @@ std::ostream &operator<<(std::ostream &os, QualType q) {
                                     [](std::string *out, type::Type t) {
                                       out->append(t.to_string());
                                     }))
-            << ")";
+            << (q.HasErrorMark() ? ")[!!!]" : ")");
 }
 
 }  // namespace type

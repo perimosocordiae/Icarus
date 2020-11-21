@@ -102,7 +102,7 @@ struct Compiler
   PersistentResources resources() { return resources_; }
 
   template <typename... Args>
-  Compiler MakeChild(Args &&... args) {
+  Compiler MakeChild(Args &&...args) {
     Compiler c(std::forward<Args>(args)...);
     c.builder().CurrentGroup() = builder().CurrentGroup();
     c.builder().CurrentBlock() = builder().CurrentBlock();
@@ -112,7 +112,10 @@ struct Compiler
   void VerifyAll(base::PtrSpan<ast::Node const> nodes) {
     for (ast::Node const *node : nodes) {
       if (auto const *decl = node->if_as<ast::Declaration>()) {
-        if (decl->flags() & ast::Declaration::f_IsConst) { VerifyType(node); }
+        if (decl->flags() & ast::Declaration::f_IsConst) {
+          auto qt = VerifyType(node);
+          if (qt.HasErrorMark()) return;
+        }
       }
     }
 
@@ -121,7 +124,8 @@ struct Compiler
         if (decl->flags() & ast::Declaration::f_IsConst) { continue; }
       }
 
-      VerifyType(node);
+      auto qt = VerifyType(node);
+      if (qt.HasErrorMark()) return;
     }
 
     CompleteWorkQueue();
@@ -448,14 +452,18 @@ struct Compiler
   void EmitMoveInit(type::Typed<ir::Value> from_val,
                     type::Typed<ir::Reg> to_var) {
     // TODO Optimize once you understand the semantics better.
-    if (to_var.type().get()->IsDefaultInitializable()) { EmitDefaultInit(to_var); }
+    if (to_var.type().get()->IsDefaultInitializable()) {
+      EmitDefaultInit(to_var);
+    }
     EmitMoveAssign(to_var, from_val);
   }
 
   void EmitCopyInit(type::Typed<ir::Value> from_val,
                     type::Typed<ir::Reg> to_var) {
     // TODO Optimize once you understand the semantics better.
-    if (to_var.type().get()->IsDefaultInitializable()) { EmitDefaultInit(to_var); }
+    if (to_var.type().get()->IsDefaultInitializable()) {
+      EmitDefaultInit(to_var);
+    }
     EmitCopyAssign(to_var, from_val);
   }
 
